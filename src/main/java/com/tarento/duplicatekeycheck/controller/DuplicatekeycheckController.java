@@ -7,30 +7,29 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import microservices.book.multiplication.domain.MultiplicationResultAttempt;
-import microservices.book.multiplication.service.MultiplicationService;
+import com.tarento.duplicatekeycheck.domain.ApplicationResponse;
+import com.tarento.duplicatekeycheck.domain.Employee;
+import com.tarento.duplicatekeycheck.service.KeyCheckService;
+import com.tarento.duplicatekeycheck.util.ServerResponseCode;
 
 @RestController
 @RequestMapping("/duplicatecheck")
-public class DuplicatekeycheckController {
+public class DuplicatekeycheckController extends BaseController{
 	
 	private final KeyCheckService keyCheckService;
 
     @Autowired
-    MultiplicationResultAttemptController(final MultiplicationService multiplicationService) {
-        this.multiplicationService = multiplicationService;
+    DuplicatekeycheckController(final KeyCheckService keyCheckService) {
+        this.keyCheckService = keyCheckService;
     }
 
     @PostMapping
-    ResponseEntity<MultiplicationResultAttempt> postResult(@RequestBody MultiplicationResultAttempt multiplicationResultAttempt) {
-        boolean isCorrect = multiplicationService.checkAttempt(multiplicationResultAttempt);
-        MultiplicationResultAttempt attemptCopy = new MultiplicationResultAttempt(
-                multiplicationResultAttempt.getUser(),
-                multiplicationResultAttempt.getMultiplication(),
-                multiplicationResultAttempt.getResultAttempt(),
-                isCorrect
-        );
-        return ResponseEntity.ok(attemptCopy);
+    ApplicationResponse createEmployee(@RequestBody Employee employee) {
+    	boolean ifDuplicateEmployee = keyCheckService.createEmployee(employee);
+    	if(ifDuplicateEmployee == false) {
+    		return getServerResponse(ServerResponseCode.CREATED,employee);
+    	}
+        return getServerResponse(ServerResponseCode.SUCCESS,employee);
     }
 
 }

@@ -2,13 +2,22 @@ package com.tarento.duplicatekeycheck.domain;
 
 import java.util.Optional;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Employee {
 
+	@Id
 	String id;
 	String firstName;
 	String lastName;
 	String department;
 	long salary;
+	
+	public Employee() {
+		
+	}
 
 	public Employee(String id, String firstName, String lastName, String department,long salary) {
 		super();
