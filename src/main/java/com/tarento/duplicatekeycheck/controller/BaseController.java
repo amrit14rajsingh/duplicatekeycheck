@@ -1,6 +1,8 @@
 package com.tarento.duplicatekeycheck.controller;
 
+
 import com.tarento.duplicatekeycheck.domain.ApplicationResponse;
+import com.tarento.duplicatekeycheck.util.ApplicationConstants;
 
 public abstract class BaseController {
 	
@@ -18,10 +20,10 @@ public abstract class BaseController {
 		switch (responseCode) {
 		
 		case 201:
-		    applicatioResponse.setResponseMessage("duplicate-false");
+		    applicatioResponse.setResponseMessage(ApplicationConstants.DUPLICATEFALSE);
 		    break;
 		case 200:
-			applicatioResponse.setResponseMessage("duplicate-true");
+			applicatioResponse.setResponseMessage(ApplicationConstants.DUPLICATETRUE);
 		    break;
 		}
 	}
